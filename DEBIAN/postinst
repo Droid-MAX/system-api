@@ -1,0 +1,10 @@
+#!/bin/bash
+systemctl daemon-reload
+echo "Enabling System API daemon service."
+if [[ -f "/lib/systemd/system/system-api.service" ]]; then
+    systemctl enable system-api.service
+fi
+if [[ -f "/etc/init.d/system-api" ]]; then
+    update-rc.d system-api defaults
+fi
+ln -s /opt/system-api/configuration.yml /etc/configuration.yml

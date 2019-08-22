@@ -1,0 +1,9 @@
+#!/bin/bash
+echo "Shutting down System API daemon service."
+if [[ -f "/lib/systemd/system/system-api.service" ]] || [[ -f "/etc/systemd/system/system-api.service" ]]; then
+    systemctl stop system-api
+    systemctl disable system-api.service
+elif [[ -f "/etc/init.d/system-api" ]]; then
+    service system-api stop
+    update-rc.d -f system-api remove
+fi

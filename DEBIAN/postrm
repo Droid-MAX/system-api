@@ -1,0 +1,3 @@
+#!/bin/bash
+systemctl daemon-reload
+rm -rf /etc/configuration.yml /var/run/system-api.pid /monitors.json

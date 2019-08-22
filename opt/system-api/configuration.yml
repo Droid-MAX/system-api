@@ -1,0 +1,52 @@
+#########################################
+### System-Api configuration          ###
+#########################################
+metricsConfig:
+  monitor:
+    interval: 45
+    unit: SECONDS
+  history:
+    interval: 30
+    unit: MINUTES
+    purging:
+      olderThan: 3
+      unit: DAYS
+      purgeEvery: 1
+      purgeEveryUnit: DAYS
+  cache:
+    duration: 5
+    unit: SECONDS
+user:
+  username: user
+  password: password
+windows:
+  enableOhmJniWrapper: false
+#forwardHttps: false
+
+#########################################
+### Dropwizard specific configuration ###
+#########################################
+server:
+  maxThreads: 100
+  minThreads: 1
+  maxQueuedRequests: 100
+  idleThreadTimeout: 1 minute
+  applicationContextPath: /v2
+  applicationConnectors:
+    - type: http
+      port: 8080
+  adminConnectors:
+    - type: http
+      port: 8081
+logging:
+
+  # The default level of all loggers. Can be OFF, ERROR, WARN, INFO, DEBUG, TRACE, or ALL.
+  level: INFO
+
+  # Logger-specific levels.
+  loggers:
+    "com.krillsson.sysapi":
+      additive: false
+      level: DEBUG
+      appenders:
+        - type: console
