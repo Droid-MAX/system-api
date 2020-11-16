@@ -11,12 +11,12 @@
 
 DESC=system-api
 NAME=system-api
-DAEMON=/usr/bin/java
+DAEMON=/usr/bin/sys-api-server
 RUNPATH=/opt/system-api
 PIDFILE=/var/run/$NAME.pid
 SCRIPTNAME=/etc/init.d/$NAME
 
-DAEMON_OPTS="-jar $RUNPATH/system-api.jar server $RUNPATH/configuration.yml"
+DAEMON_OPTS="server $RUNPATH/configuration.yml"
 
 # Exit if the package is not installed
 [ -x $DAEMON ] || exit 0
