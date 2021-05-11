@@ -1,6 +1,6 @@
 Package: system-api
 Version: 0.15.0
-Depends: openjdk-8-jre, daemon
+Depends: openjdk-11-jre, daemon
 Section: utils
 Priority: optional
 Architecture: all
