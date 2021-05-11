@@ -23,7 +23,9 @@ windows:
   enableOhmJniWrapper: true
 graphQLPlayGround:
   enabled: true
-#forwardHttps: false
+docker:
+  enabled: false
+forwardHttpToHttps: false
 
 #########################################
 ### Dropwizard specific configuration ###
@@ -56,6 +58,11 @@ logging:
   loggers:
     "com.krillsson.sysapi":
       additive: false
-      level: DEBUG
+      level: INFO
+      appenders:
+        - type: console
+    "graphql.kickstart":
+      additive: false
+      level: WARN
       appenders:
         - type: console

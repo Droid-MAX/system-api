@@ -1,10 +1,18 @@
 :computer: System API
 =====================
+[![Coverage Status](https://coveralls.io/repos/github/Krillsson/sys-api/badge.svg?branch=develop)](https://coveralls.io/github/Krillsson/sys-api?branch=develop)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=com.krillsson%3Asys-api&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=com.krillsson%3Asys-api)
 
-System API (sys-API) is a RESTful API to your computers hardware.
+System API (sys-API) provide both GraphQL and RESTful API's to your computers hardware.
 
-Sys-API publishes and monitors values from [OSHI](https://github.com/oshi/oshi) with the help of [Dropwizard](https://github.com/dropwizard/dropwizard). On Windows the information is supplemented with
-[OpenHardwareMonitor](https://github.com/openhardwaremonitor/openhardwaremonitor) with a little help from [OhmJni4Net](https://github.com/Krillsson/ohmjni4net).
+It publishes and monitors values from [OSHI](https://github.com/oshi/oshi) with the help of [Dropwizard](https://github.com/dropwizard/dropwizard). On Windows the information is supplemented with
+[OpenHardwareMonitor](https://github.com/openhardwaremonitor/openhardwaremonitor) with a bit of help from [OhmJni4Net](https://github.com/Krillsson/ohmjni4net).
+
+>This is the server backend for the Android app Monitee.
+>
+>:warning: Latest compatible version is [0.11](https://github.com/Krillsson/sys-API/releases/tag/0.11) :warning:
+>
+><a href="https://play.google.com/store/apps/details?id=com.krillsson.monitee"><img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" alt="Get it on Play Store" height="80"></a>
 
 ## What can it do?
 
@@ -17,63 +25,26 @@ Sys-API publishes and monitors values from [OSHI](https://github.com/oshi/oshi) 
 - Show info from sensors and fans
 - Motherboard information
 
-## Endpoints
+### GraphQL
 
+GraphQL is available through the `/graphql` endpoint. It supports the exact same features as the REST-API. Checkout the [schema](server/src/main/resources/schema.graphqls).
+
+A web-UI for trying out the GraphQL-API is also available at `<IP>:8080/`. If you don't want to expose this functionality. It can be disabled via the configuration.
+
+```yaml
+graphQLPlayGround:
+  enabled: false
 ```
 
-    // Static information about the system
-    GET     /system
-    
-    // Current load of the system
-    GET     /system/load
-    
-    // An array of (date, system load) entries
-    GET     /system/load/history
+If the server is protected by Basic Auth, you need to configure GraphQL Playground to send the `authorization` header. Here's an example with the default credentials:
 
-    // Currently configured monitors
-    GET     /monitors
-    
-    // Configure a new monitor
-    POST    /monitors
-    
-    // Remove an existing monitor
-    DELETE  /monitors/{id}
-
-    // Get currently ongoing threshold violations, if any.
-    GET     /events
-
-    // displays meta info about the Sys-API server
-    GET     /
-
-    GET     /cpu
-    GET     /cpu/load
-    GET     /cpu/load/history
-    GET     /drives
-    GET     /drives/loads
-    GET     /drives/loads/history
-    GET     /drives/loads/{name}
-    GET     /drives/{name}
-    GET     /gpus
-    GET     /gpus/loads
-    GET     /gpus/loads/history
-    GET     /memory
-    GET     /memory/history
-    GET     /motherboard
-    GET     /motherboard/health
-    GET     /nics
-    GET     /nics/loads
-    GET     /nics/loads/history
-    GET     /nics/loads/{id}
-    GET     /nics/{id}
-    GET     /pid
-    GET     /processes
-    GET     /processes/{pid}
-    GET     /system/jvm
-    GET     /system/uptime
-    GET     /version
+```json
+{
+  "authorization": "Basic dXNlcjpwYXNzd29yZA=="
+}
 ```
 
-## Usage
+## REST-API
 
 The `/system` endpoint contains accumulated information about the whole system. Then if you want information for just a specific part of the system you can use the part specific endpoint.
 So for example the cpu temperature and usage is under `/cpu`. Some things are excluded from `/system`, such as `/system/jvm` and `/processes` since they contain so much information.
@@ -155,6 +126,7 @@ The `"id"` in the response above can be used to delete the events associated wit
 with a particular ID, the _STOP_ event for that event will be discarded. 
 
 ## Running
+
 Download the [release](https://github.com/Droid-MAX/system-api/releases).
 
 - Debian/Ubuntu: download the package and use dpkg to install it.
@@ -175,7 +147,19 @@ and service default boot.
 
 - Log File path: `/var/log/syslog`
 
+Download the [latest release](https://github.com/Krillsson/sys-api/releases/latest).
+
+- Windows: unzip the package somewhere convenient and then right click the `.bat` file and choose _Run as administrator_
+- *nix: untar or unzip the package and run the `.sh` file from a terminal
+
+A GUI in JavaFX is in the making
+
+### Concerned about memory usage
+
+Change the launcher script to this: `java -Xmx256m -Xms128m -jar system-api.jar server configuration.yml`
+
 ## Configuration
+
 The configuration.yml file is a [Dropwizard configuration file](https://dropwizard.github.io/dropwizard/manual/configuration.html).
 
 configuration.yml path is `/etc/configuration.yml`
@@ -196,6 +180,33 @@ Disable the OhmJni extension on Windows:
 Forward HTTP to HTTPS:
 
     forwardHttps: true
+
+## Development
+
+Setup
+```sh
+git clone [this repo] sys-api
+```
+```sh
+mvn clean install
+```
+```sh
+cd server
+java -jar target/system-api.jar server configuration.yml
+```
+Test
+
+```sh
+curl -i --user user:password -H "Accept: application/json" -X GET http://localhost:8080/v2/system
+```
+
+Package for distribution in a *.zip*, *tar.gz* and *tar.bz2*:
+
+```sh
+mvn clean package
+```
+
+And the resulting files should be located in */server/target/*
 
 License
 -------

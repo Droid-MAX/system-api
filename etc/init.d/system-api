@@ -12,11 +12,11 @@
 DESC=system-api
 NAME=system-api
 DAEMON=/usr/bin/sys-api-server
-RUNPATH=/opt/system-api
+CONFILE=/etc/configuration.yml
 PIDFILE=/var/run/$NAME.pid
 SCRIPTNAME=/etc/init.d/$NAME
 
-DAEMON_OPTS="server $RUNPATH/configuration.yml"
+DAEMON_OPTS="server $CONFILE"
 
 # Exit if the package is not installed
 [ -x $DAEMON ] || exit 0
