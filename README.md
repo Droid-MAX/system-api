@@ -10,7 +10,7 @@ It publishes and monitors values from [OSHI](https://github.com/oshi/oshi) with 
 
 >This is the server backend for the Android app Monitee.
 >
->:warning: Latest compatible version is [0.11](https://github.com/Krillsson/sys-API/releases/tag/0.11) :warning:
+>:warning: Latest compatible version is [0.17.1](https://github.com/Krillsson/sys-API/releases/tag/0.17.1) :warning:
 >
 ><a href="https://play.google.com/store/apps/details?id=com.krillsson.monitee"><img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" alt="Get it on Play Store" height="80"></a>
 
@@ -24,6 +24,24 @@ It publishes and monitors values from [OSHI](https://github.com/oshi/oshi) with 
 - List all network interfaces
 - Show info from sensors and fans
 - Motherboard information
+- List docker containers
+- Start/stop docker containers
+
+### Monitoring
+
+Currently, you can monitor
+
+- CPU load
+- CPU temperature
+- Memory usage
+- Network up
+- Network upload/download rate
+- Drive space
+- Drive read/write rate
+- Process ID CPU or Memory
+- Docker container in running state
+- Connectivity
+- External IP changed
 
 ### GraphQL
 
