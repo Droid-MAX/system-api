@@ -9,11 +9,12 @@ metricsConfig:
     interval: 30
     unit: MINUTES
     purging:
-      olderThan: 3
+      olderThan: 14
       unit: DAYS
       purgeEvery: 1
       purgeEveryUnit: DAYS
   cache:
+    enabled: true
     duration: 5
     unit: SECONDS
 user:
@@ -21,13 +22,19 @@ user:
   password: password
 windows:
   enableOhmJniWrapper: true
+# web interface for running queries
 graphQLPlayGround:
   enabled: true
+# docker management and metrics support
 docker:
   enabled: true
+# resolve external IP and monitor internet connectivity
 connectivityCheck:
   enabled: true
   address: https://ifconfig.me
+# advertise service in local network for easier client setup
+mDNS:
+  enabled: true
 forwardHttpToHttps: false
 selfSignedCertificates:
   enabled: true
@@ -56,6 +63,8 @@ server:
   rootPath: /api/
   adminContextPath: /admin
   applicationContextPath: /
+  requestLog:
+    appenders: [ ]
   applicationConnectors:
     - type: http
       port: 8080
@@ -66,11 +75,10 @@ server:
       certAlias: sys-api-key
       validateCerts: false
       validatePeers: false
-
 logging:
 
   # The default level of all loggers. Can be OFF, ERROR, WARN, INFO, DEBUG, TRACE, or ALL.
-  level: INFO
+  level: ERROR
 
   # Logger-specific levels.
   loggers:
@@ -79,8 +87,38 @@ logging:
       level: INFO
       appenders:
         - type: console
+    "io.dropwizard":
+      additive: false
+      level: ERROR
+      appenders:
+        - type: console
+    "io.dropwizard.server.ServerFactory":
+      additive: false
+      level: INFO
+      appenders:
+        - type: console
+    "org.hibernate.SQL":
+      additive: false
+      level: ERROR
+      appenders:
+        - type: console
+    "org.hibernate.type":
+      additive: false
+      level: ERROR
+      appenders:
+        - type: console
+    "org.hibernate.stat":
+      additive: false
+      level: ERROR
+      appenders:
+        - type: console
+    "org.hibernate.engine":
+      additive: false
+      level: ERROR
+      appenders:
+        - type: console
     "graphql.kickstart":
       additive: false
-      level: WARN
+      level: ERROR
       appenders:
         - type: console
