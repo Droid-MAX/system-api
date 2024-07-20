@@ -12,11 +12,11 @@
 DESC=system-api
 NAME=system-api
 DAEMON=/usr/bin/sys-api-server
-CONFILE=/etc/configuration.yml
+CONFILE=/etc/application.properties
 PIDFILE=/var/run/$NAME.pid
 SCRIPTNAME=/etc/init.d/$NAME
 
-DAEMON_OPTS="server $CONFILE"
+DAEMON_OPTS="--spring.config.location=file:$CONFILE"
 
 # Exit if the package is not installed
 [ -x $DAEMON ] || exit 0
