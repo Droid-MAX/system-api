@@ -1,5 +1,5 @@
 #########################################
-### System-Api configuration          ###
+### sys-API user configuration        ###
 #########################################
 metricsConfig:
   monitor:
@@ -14,7 +14,7 @@ metricsConfig:
       purgeEvery: 1
       purgeEveryUnit: DAYS
   cache:
-    enabled: true
+    enabled: false
     duration: 5
     unit: SECONDS
 user:
@@ -22,18 +22,40 @@ user:
   password: password
 windows:
   enableOhmJniWrapper: true
+  eventLog:
+    enabled: true
+  serviceManagement:
+    enabled: true
+linux:
+  journalLogs:
+    enabled: true
+  systemDaemonServiceManagement:
+    enabled: true
 # web interface for running queries
 graphQLPlayGround:
-  enabled: true
+  enabled: false
 # docker management and metrics support
 docker:
   enabled: true
+  #  cache:
+  #    enabled: true
+  #    duration: 2
+  #    unit: SECONDS
+  # uncomment if you'd like to manually specify docker host
+  # host: unix:///var/run/docker.sock or unix:///run/podman/podman.sock
 # resolve external IP and monitor internet connectivity
 connectivityCheck:
   enabled: true
   address: https://ifconfig.me
+updateCheck:
+  enabled: true
+  address: https://api.github.com
+  user: krillsson
+  repo: sys-api
 # advertise service in local network for easier client setup
 mDNS:
+  enabled: true
+upnp:
   enabled: true
 forwardHttpToHttps: false
 selfSignedCertificates:
@@ -45,80 +67,3 @@ selfSignedCertificates:
   ## manually populate CN and SAN below
   # commonName: sys-api.org
   # subjectAlternativeNames: [192.168.0.24, 10.8.0.24]
-
-#########################################
-### Dropwizard specific configuration ###
-#########################################
-graphql:
-  enableTracing: false
-  queryCache: maximumSize=10000
-  schemaFiles:
-    - schema.graphqls
-
-server:
-  maxThreads: 100
-  minThreads: 1
-  maxQueuedRequests: 100
-  idleThreadTimeout: 1 minute
-  rootPath: /api/
-  adminContextPath: /admin
-  applicationContextPath: /
-  requestLog:
-    appenders: [ ]
-  applicationConnectors:
-    - type: http
-      port: 8080
-    - type: https
-      port: 8443
-      keyStorePath: data/keystorewww.jks
-      keyStorePassword: sys-api
-      certAlias: sys-api-key
-      validateCerts: false
-      validatePeers: false
-logging:
-
-  # The default level of all loggers. Can be OFF, ERROR, WARN, INFO, DEBUG, TRACE, or ALL.
-  level: ERROR
-
-  # Logger-specific levels.
-  loggers:
-    "com.krillsson.sysapi":
-      additive: false
-      level: INFO
-      appenders:
-        - type: console
-    "io.dropwizard":
-      additive: false
-      level: ERROR
-      appenders:
-        - type: console
-    "io.dropwizard.server.ServerFactory":
-      additive: false
-      level: INFO
-      appenders:
-        - type: console
-    "org.hibernate.SQL":
-      additive: false
-      level: ERROR
-      appenders:
-        - type: console
-    "org.hibernate.type":
-      additive: false
-      level: ERROR
-      appenders:
-        - type: console
-    "org.hibernate.stat":
-      additive: false
-      level: ERROR
-      appenders:
-        - type: console
-    "org.hibernate.engine":
-      additive: false
-      level: ERROR
-      appenders:
-        - type: console
-    "graphql.kickstart":
-      additive: false
-      level: ERROR
-      appenders:
-        - type: console

@@ -5,7 +5,7 @@
 
 System API (sys-API) provide both GraphQL and RESTful API's to your computers hardware.
 
-It publishes and monitors values from [OSHI](https://github.com/oshi/oshi) with the help of [Dropwizard](https://github.com/dropwizard/dropwizard). On Windows the information is supplemented with
+It publishes and monitors values from [OSHI](https://github.com/oshi/oshi) with the help of [Spring](https://spring.io). On Windows the information is supplemented with
 [OpenHardwareMonitor](https://github.com/openhardwaremonitor/openhardwaremonitor) with a bit of help from [OhmJni4Net](https://github.com/Krillsson/ohmjni4net).
 
 >This is the server backend for the Android app Monitee.
